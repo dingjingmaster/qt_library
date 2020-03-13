@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QObject>
+#include <QApplication>
 #include <QCoreApplication>
 #include <QGSettings/QGSettings>
 
@@ -15,19 +16,16 @@
 
 int main (int argc, char* argv[])
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    TestKey k(nullptr);
-    QGSettings g("org.gnome.Epiphany.ui");
+    TestKey* k = new TestKey(nullptr);
+    QGSettings* g = new QGSettings("org.gnome.Epiphany.ui");
 
-    qDebug() << "keep-window-open:" << g.get("keep-window-open").toInt();
+    qDebug() << "keep-window-open:" << g->get("keep-window-open").toInt();
 
-    g.set("keep-window-open", true);
-    qDebug() << "keep-window-open:" << g.get("keep-window-open").toInt();
+    qDebug()<<g->keys();
 
-    qDebug()<<g.keys();
-
-    QObject::connect(&g, SIGNAL(changed), &k, SLOT(testKey));
+    qDebug() << QObject::connect(g, SIGNAL(changed(QString)), k, SLOT(testKey(QString)));
 
     return app.exec();
 }

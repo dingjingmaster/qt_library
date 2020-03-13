@@ -6,6 +6,8 @@
 
 #include <QDebug>
 #include <QString>
+#include <QObject>
+#include <QMetaMethod>
 
 struct QGSettingsPrivate
 {
@@ -25,13 +27,13 @@ void QGSettingsPrivate::settingChanged(GSettings *, const gchar *key, gpointer u
     /**
      * 这里不属于 QObject的子类，只能通过此方法强制调用 QObject 子类的方法或信号
      *
-     * Qt::QueuedConnection         发送一个QEvent，并在应用程序进入主事件循环后立即调用该成员。
      * Qt::DirectConnection         立即调用
+     * Qt::QueuedConnection         发送一个QEvent，并在应用程序进入主事件循环后立即调用该成员。
      * Qt::BlockingQueuedConnection 则将以与Qt::QueuedConnection相同的方式调用该方法，除了当前线程将阻塞直到事件被传递。使用此连接类型在同一线程中的对象之间进行通信将导致死锁
      * Qt::AutoConnection           则如果obj与调用者位于同一个线程中，则会同步调用该成员; 否则它将异步调用该成员
      *
      */
-    QMetaObject::invokeMethod(self, "changed", Qt::DirectConnection, Q_ARG(QString, key));
+    QMetaObject::invokeMethod(self, "changed", Qt::AutoConnection, Q_ARG(QString, key));
 }
 
 
@@ -102,7 +104,6 @@ QStringList QGSettings::keys() const
     gchar **keys = g_settings_list_keys(mPriv->settings);
     for (int i = 0; keys[i]; i++)
         list.append(keys[i]);
-//    list.append(qtify_name(keys[i]));
 
     g_strfreev(keys);
 

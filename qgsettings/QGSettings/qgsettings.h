@@ -8,10 +8,10 @@
  * gsettings 的 key 必须是小写字符和下划线组成
  * 此类将所有key转为驼峰方式
  */
-
 class QGSettings : public QObject
 {
     Q_OBJECT
+
 public:
     /* 根据 schemaId 和 path 创建QGSettings对象 */
     explicit QGSettings(const QByteArray& schemaId, const QByteArray& path=QByteArray(), QObject *parent = nullptr);
@@ -54,16 +54,11 @@ public:
     static bool isSchemaInstalled (const QByteArray& schemaId);
 
 Q_SIGNALS:
-    /**
-     * key 的值改变时发射信号
-     *
-     */
-    void changed (const QString& key);
+    void changed (QString);
 
 private:
     struct QGSettingsPrivate* mPriv;
     friend struct QGSettingsPrivate;
-
 };
 
 #endif // QGSETTINGS_H

@@ -9,10 +9,8 @@ class TestKey : public QObject
 public:
     explicit TestKey(QObject *parent = nullptr);
 
-Q_SLOT
-    void testKey(QString&);
-
-Q_SIGNALS:
+public Q_SLOTS:
+    void testKey(QString);
 
 };
 
