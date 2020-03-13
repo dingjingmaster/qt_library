@@ -206,17 +206,7 @@ QVariant qconf_types_to_qvariant(GVariant *value)
         }
 }
 
-void qconf_types_unpack(GVariant *value, void *argument)
-{
-
-}
-
-GVariant *qconf_types_collect(const GVariantType *gtype, const void *argument)
-{
-
-}
-
-
+// trans 'aa-bb' to 'aaBb'
 QString qtify_name(const char *name)
 {
     bool next_cap = false;
@@ -238,13 +228,6 @@ QString qtify_name(const char *name)
     return result;
 }
 
-/* Convert 'someKey' to 'some-key'
- *
- * This is the inverse function of qtify_name, iff qtify_name was called with a
- * valid gsettings key name (no capital letters, no consecutive dashes).
- *
- * Returns a newly-allocated string.
- */
 gchar * unqtify_name(const QString &name)
 {
     const gchar *p;
